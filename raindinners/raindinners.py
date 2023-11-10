@@ -22,7 +22,7 @@ class RainDinners:
         self.session = Session(session=session, connect_kwargs=connect_kwargs)
 
     async def request(self, method: Method[RainDinnersType], timeout: int = 60) -> RainDinnersType:
-        return await self.session.request(rain_dinners=self, method=method, timeout=timeout)
+        return await self.session.request(raindinners=self, method=method, timeout=timeout)
 
     async def stream(
         self,
@@ -31,7 +31,7 @@ class RainDinners:
         chunk_size: int = 65536,
     ) -> AsyncGenerator[bytes, None]:
         return self.session.stream(
-            rain_dinners=self,
+            raindinners=self,
             file_id=file_id,
             timeout=timeout,
             chunk_size=chunk_size,

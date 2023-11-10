@@ -6,7 +6,7 @@ from raindinners.methods.base import Method, Request
 from raindinners.types import Authorization
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 
 class SignIn(Method[Authorization]):
@@ -39,5 +39,5 @@ class SignIn(Method[Authorization]):
     auth_date: int
     hash: str
 
-    def request(self, interface: RainDinners) -> Request:
+    def request(self, raindinners: RainDinners) -> Request:
         return Request(method=self.__name__, data=self.model_dump())

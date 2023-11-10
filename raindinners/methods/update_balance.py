@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from raindinners.methods.base import Method, Request
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 
 class UpdateBalance(Method[bool]):

@@ -6,7 +6,7 @@ from raindinners.methods.base import Method, Request
 from raindinners.types import User
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 
 class GetUser(Method[User]):
@@ -27,5 +27,5 @@ class GetUser(Method[User]):
 
     user_id: int
 
-    def request(self, interface: RainDinners) -> Request:
+    def request(self, raindinners: RainDinners) -> Request:
         return Request(method=self.__name__, data=self.model_dump())

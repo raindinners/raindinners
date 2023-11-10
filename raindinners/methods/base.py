@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any, Dict, Generic, Optional, TypeVar
 from pydantic import BaseModel, ConfigDict, Extra
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 RainDinnersType = TypeVar("RainDinnersType")
 

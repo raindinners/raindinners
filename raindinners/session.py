@@ -13,7 +13,7 @@ from raindinners.methods import Method, RainDinnersType
 from raindinners.utils.response_validator import response_validator
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 
 class DataManager:
@@ -89,16 +89,16 @@ class Session(SessionManager, DataManager):
         )
 
     async def request(
-        self, rain_dinners: RainDinners, method: Method[RainDinnersType], timeout: int = 60
+        self, raindinners: RainDinners, method: Method[RainDinnersType], timeout: int = 60
     ) -> RainDinnersType:
         await self.create()
 
         try:
             async with self.session.post(
-                url=rain_dinners.network.url(method=method.__name__),
+                url=raindinners.network.url(method=method.__name__),
                 json={
                     key: self.prepare_value(value)
-                    for key, value in method.request(rain_dinners=rain_dinners).data.items()
+                    for key, value in method.request(raindinners=raindinners).data.items()
                 },
                 timeout=timeout,
             ) as response:
@@ -115,7 +115,7 @@ class Session(SessionManager, DataManager):
 
     async def stream(
         self,
-        rain_dinners: RainDinners,
+        raindinners: RainDinners,
         file_id: str,
         timeout: int = 60,
         chunk_size: int = 65536,
@@ -124,7 +124,7 @@ class Session(SessionManager, DataManager):
         await self.create()
 
         async with self.session.post(
-            url=rain_dinners.network.file(file_id=file_id),
+            url=raindinners.network.file(file_id=file_id),
             timeout=timeout,
             raise_for_status=raise_for_status,
         ) as response:

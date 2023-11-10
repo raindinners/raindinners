@@ -1,7 +1,7 @@
-from .interface import Interface
 from .network import Network
+from .raindinners import RainDinners
 
 __all__ = (
-    "Interface",
+    "RainDinners",
     "Network",
 )

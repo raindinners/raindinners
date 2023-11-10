@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from raindinners.methods.base import Method, Request
 
 if TYPE_CHECKING:
-    from raindinners.rain_dinners import RainDinners
+    from raindinners.raindinners import RainDinners
 
 
 class GetBonus(Method[bool]):
@@ -26,5 +26,5 @@ class GetBonus(Method[bool]):
 
     access_token: str
 
-    def request(self, interface: RainDinners) -> Request:
+    def request(self, raindinners: RainDinners) -> Request:
         return Request(method=self.__name__, data=self.model_dump())
