@@ -7,6 +7,8 @@ from aiogram.types import TelegramObject
 from pydantic import BaseModel, ValidationError
 from redis.asyncio import Redis
 
+from logger import logger
+
 T = TypeVar("T", bound=BaseModel)
 
 
@@ -28,11 +30,13 @@ class As(Filter, Generic[T]):
 
         try:
             return {self.as_: self.pydantic_class.model_validate_json(value)}
-        except ValidationError:
+        except ValidationError as exc:
             if self.default:
                 await redis.set(
                     name=getattr(event, self.key), value=self.default.model_dump_json()
                 )
                 return {self.as_: self.default}
+
+            logger.exception(exc)
 
         return False

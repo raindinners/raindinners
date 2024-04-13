@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import time
 from typing import Any, List
 
 from aiogram import Router
@@ -9,23 +8,28 @@ from aiogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessag
 
 from enums import Games
 from keyboards import create_inline_keyboard_builder
+from utils.inline_query import get_id
 
 router = Router()
 
 
-def get_create_results() -> List[Any]:
+async def get_results() -> List[Any]:
     return [
         InlineQueryResultArticle(
-            id=str(time.time()),
-            title=Games.TIC_TAC_TOE,
+            id=get_id(),
+            title=game,
             input_message_content=InputTextMessageContent(
-                message_text="Just click button below", parse_mode=ParseMode.MARKDOWN
+                message_text=game, parse_mode=ParseMode.MARKDOWN
             ),
-            reply_markup=create_inline_keyboard_builder(game=Games.TIC_TAC_TOE).as_markup(),
+            reply_markup=create_inline_keyboard_builder(game=game).as_markup(),
         )
+        for game in Games
     ]
 
 
 @router.inline_query()
 async def create_handler(inline_query: InlineQuery) -> None:
-    await inline_query.answer(results=get_create_results())  # mypy: ignore[arg-type]
+    await inline_query.answer(  # mypy: ignore[arg-type]
+        results=await get_results(),
+        is_personal=True,
+    )

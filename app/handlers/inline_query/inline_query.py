@@ -7,6 +7,7 @@ from .create import router as create_router
 
 def setup() -> Router:
     router = Router()
+
     router.include_routers(create_router)
 
     return router

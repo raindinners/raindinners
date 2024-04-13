@@ -8,7 +8,7 @@ class Who(Enum):
 
     def text(self) -> str:
         if self == Who.X:
-            return "❎"
+            return "✖️"
         if self == Who.O:
-            return "⭕️"
+            return "🟢"
         return "❓"

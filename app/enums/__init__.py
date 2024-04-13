@@ -1,9 +1,11 @@
+from .dig import DigItem
 from .games import Games
-from .tic_tac_toe import Column, Row, Who
+from .tic_tac_toe import TicTacToeColumn, TicTacToeRow, TicTacToeWho
 
 __all__ = (
-    "Column",
-    "Row",
-    "Who",
+    "DigItem",
     "Games",
+    "TicTacToeColumn",
+    "TicTacToeRow",
+    "TicTacToeWho",
 )

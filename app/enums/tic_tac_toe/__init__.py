@@ -1,9 +1,9 @@
-from .column import Column
-from .row import Row
-from .who import Who
+from .column import Column as TicTacToeColumn
+from .row import Row as TicTacToeRow
+from .who import Who as TicTacToeWho
 
 __all__ = (
-    "Column",
-    "Row",
-    "Who",
+    "TicTacToeColumn",
+    "TicTacToeRow",
+    "TicTacToeWho",
 )

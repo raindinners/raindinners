@@ -5,11 +5,11 @@ from typing import List
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from callback_data import TicTacToeMoveCallbackData, TicTacToeResetCallbackData
-from enums import Row, Who
+from enums import TicTacToeRow, TicTacToeWho
 
 
-def tic_tac_toe_inline_keyboard_builder(
-    key: str, is_ended: bool, map: List[List[Who]]
+def map_inline_keyboard_builder(
+    key: str, is_ended: bool, map: List[List[TicTacToeWho]]
 ) -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
     for row_index, row in enumerate(map):
@@ -26,5 +26,5 @@ def tic_tac_toe_inline_keyboard_builder(
     if is_ended:
         builder.button(text="Reset", callback_data=TicTacToeResetCallbackData(key=key))
 
-    builder.adjust(len(Row), repeat=True)
+    builder.adjust(len(TicTacToeRow), repeat=True)
     return builder

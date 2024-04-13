@@ -8,6 +8,6 @@ from enums import Games
 
 def create_inline_keyboard_builder(game: Games) -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
-    builder.button(text=game.value, callback_data=CreateCallbackData(game=game.name))
+    builder.button(text="Create", callback_data=CreateCallbackData(game=game.name))
 
     return builder
