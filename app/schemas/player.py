@@ -1,8 +1,13 @@
 from __future__ import annotations
 
-from pydantic import BaseModel
+from .schema import ApplicationSchema
 
 
-class Player(BaseModel):
-    user_id: int
-    full_name: str
+class Player(ApplicationSchema):
+    id: str
+    is_left: bool
+    stack: int
+    behind: int
+    front: int
+    round_bet: int
+    state: int

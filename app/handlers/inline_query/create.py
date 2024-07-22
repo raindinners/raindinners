@@ -6,7 +6,7 @@ from aiogram import Router
 from aiogram.enums import ParseMode
 from aiogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent
 
-from enums import Games
+from enums.games import Games
 from keyboards import create_inline_keyboard_builder
 from utils.inline_query import get_id
 

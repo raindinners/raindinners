@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from callback_data.create import CreateCallbackData
+from callback_data import CreateCallbackData
 from enums import Games
 
 

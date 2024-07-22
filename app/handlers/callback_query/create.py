@@ -1,61 +1,60 @@
 from __future__ import annotations
 
-from aiogram import Bot, F, Router
-from aiogram.enums import ParseMode
-from aiogram.types import CallbackQuery
+from contextlib import suppress
 
+from aiogram import Bot, F, Router
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.types import CallbackQuery
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from pokerengine.engine import EngineTraits
+from redis.asyncio import Redis
+
+from _redis import save
 from callback_data import CreateCallbackData
-from enums import Games
-from filters import As
-from keyboards import d_map_inline_keyboard_builder, ttt_map_inline_keyboard_builder
-from schemas import Dig, TicTacToe
+from core.poker import game
+from enums.games import Games
+from keyboards import poker_inline_keyboard_builder
+from poker import Poker
 
 router = Router()
 
 
-@router.callback_query(
-    CreateCallbackData.filter(F.game == Games.TIC_TAC_TOE.name),
-    As("tic_tac_toe", TicTacToe, default=TicTacToe()),
-)
-async def create_tic_tac_toe_handler(
-    callback_query: CallbackQuery, bot: Bot, tic_tac_toe: TicTacToe
-) -> TicTacToe:
-    tic_tac_toe.key = callback_query.inline_message_id
-    tic_tac_toe.reset()
-
-    await bot.edit_message_text(
-        text="Tap any field",
-        inline_message_id=callback_query.inline_message_id,
-        parse_mode=ParseMode.MARKDOWN,
+@router.callback_query(CreateCallbackData.filter(F.game == Games.POKER.name))
+async def create_dig_handler(
+    callback_query: CallbackQuery,
+    bot: Bot,
+    scheduler: AsyncIOScheduler,
+    redis: Redis,
+) -> None:
+    await save(
+        redis=redis,
+        key=callback_query.inline_message_id,
+        value=Poker(
+            traits=EngineTraits(
+                sb_bet=50,
+                bb_bet=100,
+                bb_mult=15,
+                min_raise=100,
+            )
+        ),
     )
-    await bot.edit_message_reply_markup(
-        inline_message_id=callback_query.inline_message_id,
-        reply_markup=ttt_map_inline_keyboard_builder(
-            key=tic_tac_toe.key, is_ended=False, map=tic_tac_toe.map
-        ).as_markup(),
-    )
-
-    return tic_tac_toe
-
-
-@router.callback_query(
-    CreateCallbackData.filter(F.game == Games.DIG.name),
-    As("dig", Dig, default=Dig()),
-)
-async def create_dig_handler(callback_query: CallbackQuery, bot: Bot, dig: Dig) -> Dig:
-    dig.key = callback_query.inline_message_id
-    dig.reset()
-
-    await bot.edit_message_text(
-        text="Tap any field",
-        inline_message_id=callback_query.inline_message_id,
-        parse_mode=ParseMode.MARKDOWN,
-    )
-    await bot.edit_message_reply_markup(
-        inline_message_id=callback_query.inline_message_id,
-        reply_markup=d_map_inline_keyboard_builder(
-            key=dig.key, is_ended=False, map=dig.map
-        ).as_markup(),
+    scheduler.add_job(
+        game,
+        kwargs={
+            "bot": bot,
+            "redis": redis,
+            "inline_message_id": callback_query.inline_message_id,
+        },
+        trigger="interval",
+        id=callback_query.inline_message_id,
+        max_instances=1,
+        seconds=1,
     )
 
-    return dig
+    with suppress(TelegramBadRequest):
+        await bot.edit_message_reply_markup(
+            inline_message_id=callback_query.inline_message_id,
+            reply_markup=poker_inline_keyboard_builder(
+                inline_message_id=callback_query.inline_message_id
+            ).as_markup(),
+        )

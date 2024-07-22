@@ -3,6 +3,7 @@ from __future__ import annotations
 from contextlib import suppress
 
 from aiogram import Bot
+from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.exceptions import TelegramAPIError
 from aiogram.types import (
@@ -62,7 +63,7 @@ async def setup_bot(bot: Bot) -> None:
 async def create_bot() -> Bot:
     bot = Bot(
         token=bot_settings.BOT_TOKEN,
-        parse_mode=ParseMode.MARKDOWN,
+        default=DefaultBotProperties(parse_mode=ParseMode.MARKDOWN),
     )
     with suppress(TelegramAPIError):
         await setup_bot(bot=bot)
