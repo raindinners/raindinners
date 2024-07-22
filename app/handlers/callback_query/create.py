@@ -58,3 +58,5 @@ async def create_dig_handler(
                 inline_message_id=callback_query.inline_message_id
             ).as_markup(),
         )
+
+    await callback_query.answer(text="Created!")

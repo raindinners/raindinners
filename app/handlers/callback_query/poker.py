@@ -6,7 +6,7 @@ from redis.asyncio import Redis
 
 from _redis import save
 from callback_data import PokerCallbackData
-from utils.poker import get_poker
+from utils.poker import get_player_by_id, get_poker
 
 router = Router()
 
@@ -18,15 +18,20 @@ async def poker_handler(
     callback_data: PokerCallbackData,
 ) -> None:
     poker = await get_poker(redis=redis, poker=callback_data.inline_message_id)
+    id_ = f"{callback_query.from_user.id}_{callback_query.from_user.first_name}"
+
     if callback_data.type == "join":
+        if get_player_by_id(poker=poker, id_=id_):
+            await callback_query.answer(text="You are in the game")
+            return
         poker.engine.players.add_player(
-            stack=poker.engine.traits.bb_bet * poker.engine.traits.bb_mult,
-            id=f"{callback_query.from_user.id}_{callback_query.from_user.first_name}",
+            stack=poker.engine.traits.bb_bet * poker.engine.traits.bb_mult, id=id_
         )
     else:
-        poker.engine.players.remove_player(
-            id=f"{callback_query.from_user.id}_{callback_query.from_user.first_name}",
-        )
+        if not get_player_by_id(poker=poker, id_=id_):
+            await callback_query.answer(text="You are not in the game")
+            return
+        poker.engine.players.remove_player(id=id_)
 
     await save(redis=redis, key=callback_data.inline_message_id, value=poker)
 
