@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import random
 import time
 from contextlib import suppress
 from typing import Optional
@@ -12,7 +13,7 @@ from pokerengine.constants import MAX_PLAYERS, MIN_PLAYERS
 from enums import GameState
 from keyboards import poker_inline_keyboard_builder
 from logger import logger
-from metadata import START_TIME
+from metadata import RANDOM_MAX_VALUE, RANDOM_MIN_VALUE, START_TIME
 from poker import Poker
 from schemas import ApplicationSchema
 
@@ -72,6 +73,7 @@ async def start(bot: Bot, inline_message_id: str, poker: Poker) -> None:
                 state=GameState.STOPPED,
                 time_=poker.start_at,
             )
+            poker.seed = random.randint(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE)
 
         poker.stop()
         return logger.debug("Skipping start: wrong state")

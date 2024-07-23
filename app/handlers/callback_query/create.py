@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import random
 from contextlib import suppress
 
 from aiogram import Bot, F, Router
@@ -14,6 +15,14 @@ from callback_data import CreateCallbackData
 from core.poker import game
 from enums.games import Games
 from keyboards import poker_inline_keyboard_builder
+from metadata import (
+    BB_BET,
+    BB_MULT,
+    MIN_RAISE,
+    RANDOM_MAX_VALUE,
+    RANDOM_MIN_VALUE,
+    SB_BET,
+)
 from poker import Poker
 
 router = Router()
@@ -31,11 +40,12 @@ async def create_dig_handler(
         key=callback_query.inline_message_id,
         value=Poker(
             traits=EngineTraits(
-                sb_bet=50,
-                bb_bet=100,
-                bb_mult=15,
-                min_raise=100,
-            )
+                sb_bet=SB_BET,
+                bb_bet=BB_BET,
+                bb_mult=BB_MULT,
+                min_raise=MIN_RAISE,
+            ),
+            seed=random.randint(RANDOM_MIN_VALUE, RANDOM_MAX_VALUE),
         ),
     )
     scheduler.add_job(
