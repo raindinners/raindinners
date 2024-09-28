@@ -1,0 +1,114 @@
+import { Rank } from "@/enums/rank";
+import { Suit } from "@/enums/suit";
+
+import B_SVG from "../assets/img/cards/B.svg";
+import TWO_CLUBS_SVG from "../assets/img/cards/2C.svg";
+import TWO_DIAMONDS_SVG from "../assets/img/cards/2D.svg";
+import TWO_HEARTS_SVG from "../assets/img/cards/2H.svg";
+import TWO_SPADES_SVG from "../assets/img/cards/2S.svg";
+import THREE_CLUBS_SVG from "../assets/img/cards/3C.svg";
+import THREE_DIAMONDS_SVG from "../assets/img/cards/3D.svg";
+import THREE_HEARTS_SVG from "../assets/img/cards/3H.svg";
+import THREE_SPADES_SVG from "../assets/img/cards/3S.svg";
+import FOUR_CLUBS_SVG from "../assets/img/cards/4C.svg";
+import FOUR_DIAMONDS_SVG from "../assets/img/cards/4D.svg";
+import FOUR_HEARTS_SVG from "../assets/img/cards/4H.svg";
+import FOUR_SPADES_SVG from "../assets/img/cards/4S.svg";
+import FIVE_CLUBS_SVG from "../assets/img/cards/5C.svg";
+import FIVE_DIAMONDS_SVG from "../assets/img/cards/5D.svg";
+import FIVE_HEARTS_SVG from "../assets/img/cards/5H.svg";
+import FIVE_SPADES_SVG from "../assets/img/cards/5S.svg";
+import SIX_CLUBS_SVG from "../assets/img/cards/6C.svg";
+import SIX_DIAMONDS_SVG from "../assets/img/cards/6D.svg";
+import SIX_HEARTS_SVG from "../assets/img/cards/6H.svg";
+import SIX_SPADES_SVG from "../assets/img/cards/6S.svg";
+import SEVEN_CLUBS_SVG from "../assets/img/cards/7C.svg";
+import SEVEN_DIAMONDS_SVG from "../assets/img/cards/7D.svg";
+import SEVEN_HEARTS_SVG from "../assets/img/cards/7H.svg";
+import SEVEN_SPADES_SVG from "../assets/img/cards/7S.svg";
+import EIGHT_CLUBS_SVG from "../assets/img/cards/8C.svg";
+import EIGHT_DIAMONDS_SVG from "../assets/img/cards/8D.svg";
+import EIGHT_HEARTS_SVG from "../assets/img/cards/8H.svg";
+import EIGHT_SPADES_SVG from "../assets/img/cards/8S.svg";
+import NINE_CLUBS_SVG from "../assets/img/cards/9C.svg";
+import NINE_DIAMONDS_SVG from "../assets/img/cards/9D.svg";
+import NINE_HEARTS_SVG from "../assets/img/cards/9H.svg";
+import NINE_SPADES_SVG from "../assets/img/cards/9S.svg";
+import TEN_CLUBS_SVG from "../assets/img/cards/TC.svg";
+import TEN_DIAMONDS_SVG from "../assets/img/cards/TD.svg";
+import TEN_HEARTS_SVG from "../assets/img/cards/TH.svg";
+import TEN_SPADES_SVG from "../assets/img/cards/TS.svg";
+import JACK_CLUBS_SVG from "../assets/img/cards/JC.svg";
+import JACK_DIAMONDS_SVG from "../assets/img/cards/JD.svg";
+import JACK_HEARTS_SVG from "../assets/img/cards/JH.svg";
+import JACK_SPADES_SVG from "../assets/img/cards/JS.svg";
+import QUEEN_CLUBS_SVG from "../assets/img/cards/QC.svg";
+import QUEEN_DIAMONDS_SVG from "../assets/img/cards/QD.svg";
+import QUEEN_HEARTS_SVG from "../assets/img/cards/QH.svg";
+import QUEEN_SPADES_SVG from "../assets/img/cards/QS.svg";
+import KING_CLUBS_SVG from "../assets/img/cards/KC.svg";
+import KING_DIAMONDS_SVG from "../assets/img/cards/KD.svg";
+import KING_HEARTS_SVG from "../assets/img/cards/KH.svg";
+import KING_SPADES_SVG from "../assets/img/cards/KS.svg";
+import ACE_CLUBS_SVG from "../assets/img/cards/AC.svg";
+import ACE_DIAMONDS_SVG from "../assets/img/cards/AD.svg";
+import ACE_HEARTS_SVG from "../assets/img/cards/AH.svg";
+import ACE_SPADES_SVG from "../assets/img/cards/AS.svg";
+
+const CARD_MAP = {
+  [Rank.TWO + Suit.CLUBS]: TWO_CLUBS_SVG,
+  [Rank.TWO + Suit.DIAMONDS]: TWO_DIAMONDS_SVG,
+  [Rank.TWO + Suit.HEARTS]: TWO_HEARTS_SVG,
+  [Rank.TWO + Suit.SPADES]: TWO_SPADES_SVG,
+  [Rank.THREE + Suit.CLUBS]: THREE_CLUBS_SVG,
+  [Rank.THREE + Suit.DIAMONDS]: THREE_DIAMONDS_SVG,
+  [Rank.THREE + Suit.HEARTS]: THREE_HEARTS_SVG,
+  [Rank.THREE + Suit.SPADES]: THREE_SPADES_SVG,
+  [Rank.FOUR + Suit.CLUBS]: FOUR_CLUBS_SVG,
+  [Rank.FOUR + Suit.DIAMONDS]: FOUR_DIAMONDS_SVG,
+  [Rank.FOUR + Suit.HEARTS]: FOUR_HEARTS_SVG,
+  [Rank.FOUR + Suit.SPADES]: FOUR_SPADES_SVG,
+  [Rank.FIVE + Suit.CLUBS]: FIVE_CLUBS_SVG,
+  [Rank.FIVE + Suit.DIAMONDS]: FIVE_DIAMONDS_SVG,
+  [Rank.FIVE + Suit.HEARTS]: FIVE_HEARTS_SVG,
+  [Rank.FIVE + Suit.SPADES]: FIVE_SPADES_SVG,
+  [Rank.SIX + Suit.CLUBS]: SIX_CLUBS_SVG,
+  [Rank.SIX + Suit.DIAMONDS]: SIX_DIAMONDS_SVG,
+  [Rank.SIX + Suit.HEARTS]: SIX_HEARTS_SVG,
+  [Rank.SIX + Suit.SPADES]: SIX_SPADES_SVG,
+  [Rank.SEVEN + Suit.CLUBS]: SEVEN_CLUBS_SVG,
+  [Rank.SEVEN + Suit.DIAMONDS]: SEVEN_DIAMONDS_SVG,
+  [Rank.SEVEN + Suit.HEARTS]: SEVEN_HEARTS_SVG,
+  [Rank.SEVEN + Suit.SPADES]: SEVEN_SPADES_SVG,
+  [Rank.EIGHT + Suit.CLUBS]: EIGHT_CLUBS_SVG,
+  [Rank.EIGHT + Suit.DIAMONDS]: EIGHT_DIAMONDS_SVG,
+  [Rank.EIGHT + Suit.HEARTS]: EIGHT_HEARTS_SVG,
+  [Rank.EIGHT + Suit.SPADES]: EIGHT_SPADES_SVG,
+  [Rank.NINE + Suit.CLUBS]: NINE_CLUBS_SVG,
+  [Rank.NINE + Suit.DIAMONDS]: NINE_DIAMONDS_SVG,
+  [Rank.NINE + Suit.HEARTS]: NINE_HEARTS_SVG,
+  [Rank.NINE + Suit.SPADES]: NINE_SPADES_SVG,
+  [Rank.TEN + Suit.CLUBS]: TEN_CLUBS_SVG,
+  [Rank.TEN + Suit.DIAMONDS]: TEN_DIAMONDS_SVG,
+  [Rank.TEN + Suit.HEARTS]: TEN_HEARTS_SVG,
+  [Rank.TEN + Suit.SPADES]: TEN_SPADES_SVG,
+  [Rank.JACK + Suit.CLUBS]: JACK_CLUBS_SVG,
+  [Rank.JACK + Suit.DIAMONDS]: JACK_DIAMONDS_SVG,
+  [Rank.JACK + Suit.HEARTS]: JACK_HEARTS_SVG,
+  [Rank.JACK + Suit.SPADES]: JACK_SPADES_SVG,
+  [Rank.QUEEN + Suit.CLUBS]: QUEEN_CLUBS_SVG,
+  [Rank.QUEEN + Suit.DIAMONDS]: QUEEN_DIAMONDS_SVG,
+  [Rank.QUEEN + Suit.HEARTS]: QUEEN_HEARTS_SVG,
+  [Rank.QUEEN + Suit.SPADES]: QUEEN_SPADES_SVG,
+  [Rank.KING + Suit.CLUBS]: KING_CLUBS_SVG,
+  [Rank.KING + Suit.DIAMONDS]: KING_DIAMONDS_SVG,
+  [Rank.KING + Suit.HEARTS]: KING_HEARTS_SVG,
+  [Rank.KING + Suit.SPADES]: KING_SPADES_SVG,
+  [Rank.ACE + Suit.CLUBS]: ACE_CLUBS_SVG,
+  [Rank.ACE + Suit.DIAMONDS]: ACE_DIAMONDS_SVG,
+  [Rank.ACE + Suit.HEARTS]: ACE_HEARTS_SVG,
+  [Rank.ACE + Suit.SPADES]: ACE_SPADES_SVG,
+  B: B_SVG
+};
+
+export default CARD_MAP;
