@@ -4,7 +4,7 @@ import { getEnumName } from "@/utils/enumName";
 import { Position } from "@/enums/position";
 
 const props = defineProps<{
-  position: number,
+  id: string,
   back?: string,
   front?: string
 }>();
@@ -12,7 +12,7 @@ const props = defineProps<{
 
 <template>
   <div>
-    <span>{{ getEnumName(position, Position) }}</span>
+    <span>#{{ props.id }}</span>
     <div class="cards">
       <Card :card="props.back" />
       <Card :card="props.front" />

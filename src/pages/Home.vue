@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import Actions from "@/components/Actions.vue";
-import Table from "@/components/Table.vue";
 import { useWebSocket } from "@vueuse/core";
 import { AutoEvent } from "@/enums/autoEvent";
 import { StartState } from "@/enums/startState";
@@ -23,8 +21,13 @@ const information = ref(null);
 
 const log = ref<string[]>([]);
 
+const showAlert = ref(false);
+const alertText = ref(null);
+
+provide("showAlert", showAlert);
+provide("poker", poker);
 const { send } = useWebSocket(
-  `ws://31.129.207.46:8080/poker${userID.value}`, {
+  `${import.meta.env.VITE_WEBSOCKET_URL}/poker${userID.value}`, {
     onMessage (_, message) {
       const response = JSON.parse(message.data);
       if (response.event_type in AutoEvent) {
@@ -36,6 +39,9 @@ const { send } = useWebSocket(
             }
           }
             return;
+            case AutoEvent.LOG: {
+                log.value.push(response.result);
+            } return;
           case AutoEvent.START: {
             switch (response.result.state) {
               case StartState.STARTING: {
@@ -60,33 +66,17 @@ const { send } = useWebSocket(
           }
             return;
           case AutoEvent.WINNERS: {
-            information.value = null;
-            for (let index = 0; index < response.result.length; index++) {
-              const result = response.result[index];
-              let winner = "by all exited";
-              let chips;
-              if (result instanceof Array) {
-                [winner, chips] = result;
-              } else {
-                chips = result;
-              }
-              if (chips > 0) {
-                winner = "won " + winner;
-              } else {
-                if (result instanceof Array) {
-                  winner = "lose by " + winner;
-                } else {
-                  winner = "lose by exited";
-                }
-              }
-              log.value.push(`Player #${information.value?.players[index].id} got ${chips} chips and ${winner}`);
-            }
+            cards.value = null;
+            information.value.current = null;
+            showChat();
           }
         }
       } else if (response.event_type in EventType) {
         switch (response.event_type) {
           case EventType.EXECUTE_ACTION: {
-            log.value.push(`Player #${information.value?.players[information.value?.current].id} posted action!`);
+              if (!response.result) {
+                  showMessage("Execute action failed")
+              }
           }
             return;
           case EventType.EXIT: {
@@ -112,7 +102,6 @@ const { send } = useWebSocket(
 );
 
 const executeAction = (action: bigint, amount: bigint, position: bigint) => {
-  console.log(action, amount, position);
   send(
     JSON.stringify(
       {
@@ -129,7 +118,6 @@ const executeAction = (action: bigint, amount: bigint, position: bigint) => {
     )
   );
 };
-
 const exit = () => {
   send(
     JSON.stringify(
@@ -142,7 +130,6 @@ const exit = () => {
     )
   );
 };
-
 const getCards = () => {
   send(
     JSON.stringify(
@@ -155,7 +142,6 @@ const getCards = () => {
     )
   );
 };
-
 const join = () => {
   send(
     JSON.stringify(
@@ -167,6 +153,19 @@ const join = () => {
       }
     )
   );
+};
+
+const showChat = () => {
+    showAlert.value = true;
+    alertText.value = log.value.join("\n");
+};
+const showMessage = text => {
+    showAlert.value = true;
+    alertText.value = text;
+}
+const showPlayer = player => {
+  showAlert.value = true;
+  alertText.value = `Player #${player.id}: stack ${player.stack}, round bet ${player.round_bet}`;
 };
 </script>
 
@@ -191,11 +190,14 @@ const join = () => {
 
         <v-tabs-window-item value="poker">
           <div v-if="information">
+            <Alert :text="alertText" />
+            <VBtn class="chatButton" @click="showChat">Chat</VBtn>
             <Table
               v-if="cards"
               :cards="cards"
               :information="information"
-              :userID="userID"
+              :user-i-d="userID"
+              @show-player="showPlayer"
             />
             <Actions
               v-if="information?.players[information?.current].id === userID"
@@ -203,13 +205,13 @@ const join = () => {
               @execute-action="executeAction"
             />
           </div>
-          <div v-else-if="!isJoined">
+          <div v-else-if="!isJoined" class="centered">
             <InputText
               id="poker"
-              v-model="poker"
               label="Type and join!"
+              :model-value="poker"
               placeholder="Enter room"
-              :validation="pokerValidation"
+              provide-key="poker"
             />
             <VBtn
               v-if="poker"
@@ -232,5 +234,19 @@ const join = () => {
 .fullScreen {
   height: 100vh;
   position: relative;
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+.chatButton {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  text-align: center; /* Выравнивание текста */
 }
 </style>

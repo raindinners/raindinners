@@ -49,6 +49,29 @@ def send_winners(
     poker: Poker,
     response: Union[List[Tuple[str, int]], List[int]],
 ) -> None:
+    for index, chips in enumerate(response):
+        if isinstance(chips, Tuple):
+            result, chips = chips
+        else:
+            result, chips = "all exited", chips
+        if chips > 0:
+            result = "won by " + result
+        else:
+            result = "lose by " + result
+
+        player = poker.engine.players.players[index]
+        manager.send_by_conn_id(
+            message=Message(
+                data=ApplicationResponse[str](
+                    ok=True,
+                    result=f"Player #{player.id} got {chips} chips and {result}",
+                    event_type=AutoEvent.LOG,
+                ).model_dump(),
+                typ="json",
+                conn_id=get_entire_player_ids(poker=poker),
+            )
+        )
+
     manager.send_by_conn_id(
         message=Message(
             data=ApplicationResponse[Union[List[Tuple[str, int]], List[int]]](

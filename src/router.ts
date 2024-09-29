@@ -1,7 +1,5 @@
 import Layout from "@/layouts/Layout.vue";
 import Home from "@/pages/Home.vue";
-import Poker from "@/pages/Poker.vue";
-import Test from "@/pages/Test.vue";
 import { createRouter, createWebHistory } from "vue-router";
 
 const router = createRouter({
@@ -14,10 +12,6 @@ const router = createRouter({
         {
           path: "/",
           component: Home
-        },
-        {
-          path: "/test",
-          component: Test,
         }
       ]
     }

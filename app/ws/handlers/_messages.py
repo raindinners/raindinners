@@ -3,9 +3,28 @@ from __future__ import annotations
 from distributed_websocket import Connection, Message, WebSocketManager
 from pokerengine.engine import Player as PPlayer
 
+from enums import AutoEvent
 from poker import Poker
 from schemas import ApplicationResponse, Event, Player, PlayerCards
 from utils.poker import get_entire_player_ids, get_player_by_id
+
+
+def send_log(
+    manager: WebSocketManager,
+    poker: Poker,
+    message: str,
+) -> None:
+    manager.send_by_conn_id(
+        message=Message(
+            data=ApplicationResponse[str](
+                ok=True,
+                result=message,
+                event_type=AutoEvent.LOG,
+            ).model_dump(),
+            typ="json",
+            conn_id=get_entire_player_ids(poker=poker),
+        )
+    )
 
 
 def send_cards(

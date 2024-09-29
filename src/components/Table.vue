@@ -4,6 +4,7 @@ import Card from "./Card.vue";
 import { Information } from "@/types/information";
 import { Hand } from "@/types/hand";
 
+const emits = defineEmits(["showPlayer"]);
 const props = defineProps<{
   information: Information,
   cards: Hand,
@@ -38,41 +39,53 @@ const players = computed(() => {
 });
 
 const getPlayerPositionStyle = (index: number) => {
-  const positions = [
-    {
-      bottom: "-10%",
-      left: "50%",
-      transform: "translateX(-50%)"
-    },
-    {
-      bottom: "0%",
-      left: "10%"
-    },
-    {
-      top: "40%",
-      left: "-20%",
-      transform: "translateY(-50%)"
-    },
-    {
-      top: "-20%",
-      left: "10%"
-    },
-    {
-      top: "-20%",
-      right: "10%"
-    },
-    {
-      top: "40%",
-      right: "-20%",
-      transform: "translateY(-50%)"
-    },
-    {
-      bottom: "0%",
-      right: "10%"
+  switch (index) {
+    case 0: {
+      return {
+        bottom: "-10%",
+        left: "50%",
+        transform: "translateX(-50%)"
+      };
     }
-  ];
-
-  return positions[index];
+    case 1: {
+      return {
+        bottom: "0%",
+        left: "10%"
+      };
+    }
+    case 2: {
+      return {
+        top: "40%",
+        left: "-20%",
+        transform: "translateY(-50%)"
+      };
+    }
+    case 3: {
+      return {
+        top: "-20%",
+        left: "10%"
+      };
+    }
+    case 4: {
+      return {
+        top: "-20%",
+        right: "10%"
+      };
+    }
+    case 5: {
+      return {
+        top: "40%",
+        right: "-20%",
+        transform: "translateY(-50%)"
+      };
+    }
+    case 6: {
+      return {
+        bottom: "0%",
+        right: "10%"
+      };
+    }
+  }
 };
 </script>
 
@@ -100,12 +113,10 @@ const getPlayerPositionStyle = (index: number) => {
             :style="getPlayerPositionStyle(index)"
           >
             <Player
+              :id="player.id"
               :back="props.cards && player.id === props.userID ? props.cards?.hand.back.string : 'B'"
-              :behind="player.behind"
               :front="props.cards && player.id === props.userID ? props.cards?.hand.front.string : 'B'"
-              :position="index"
-              :round_bet="player.round_bet"
-              :state="player.state"
+              @click="emits(`showPlayer`, player)"
             />
           </div>
         </div>

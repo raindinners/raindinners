@@ -10,7 +10,7 @@ declare module 'vue' {
     ActionButton: typeof import('./components/ActionButton.vue')['default']
     ActionRange: typeof import('./components/ActionRange.vue')['default']
     Actions: typeof import('./components/Actions.vue')['default']
-    Alert: typeof import("./components/Alert.vue")["default"]
+    Alert: typeof import('./components/Alert.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     Chat: typeof import('./components/Chat.vue')['default']
     InputRangeWithNumber: typeof import('./components/InputRangeWithNumber.vue')['default']

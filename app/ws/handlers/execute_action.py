@@ -10,7 +10,7 @@ from schemas import Event
 from utils.poker import get_poker
 from ws.requests import ExecuteActionRequest
 
-from ._messages import send_action_information
+from ._messages import send_action_information, send_log
 from ._parser import update_event
 
 
@@ -34,13 +34,19 @@ async def execute_action_handler(
 
     poker.execute(
         action=PlayerAction(
-            event.request.action.amount,
-            ActionE(event.request.action.action),
-            PositionE(event.request.action.position),
+            action=ActionE(event.request.action.action),
+            amount=event.request.action.amount,
+            position=PositionE(event.request.action.position),
         )
     )
     await save(redis=redis, key=event.request.poker, value=poker)
 
+    player = poker.engine.players.players[event.request.action.position]
+    send_log(
+        manager=manager,
+        poker=poker,
+        message=f"Player #{player.id} posted {ActionE(event.request.action.action).name.lower().capitalize()}",
+    )
     send_action_information(connection=connection, manager=manager, event=event, executed=True)
 
     return None
