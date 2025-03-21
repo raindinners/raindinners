@@ -8,7 +8,7 @@ from redis.asyncio import Redis
 from _redis import save
 from schemas import Event
 from utils.poker import get_poker
-from ws.requests import ExecuteActionRequest
+from ws.requests import PokerExecuteActionRequest
 
 from ._messages import send_action_information, send_log
 from ._parser import update_event
@@ -20,7 +20,7 @@ async def execute_action_handler(
     event: Event,
     redis: Redis,
 ) -> None:
-    event = update_event(event=event, class_type=ExecuteActionRequest)
+    event = update_event(event=event, class_type=PokerExecuteActionRequest)
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
     if (

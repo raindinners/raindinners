@@ -6,7 +6,7 @@ from typing import List, Tuple, Union
 from distributed_websocket import Message, WebSocketManager
 from sqlalchemy.orm import Session
 
-from enums import AutoEvent
+from enums import AutoEvent, Service
 from logger import logger
 from metadata import WINNERS_TIME
 from orm import BalanceModel
@@ -65,24 +65,13 @@ def send_winners(
                 data=ApplicationResponse[str](
                     ok=True,
                     result=f"Player #{player.id} got {chips} chips and {result}",
+                    service=Service.POKER,
                     event_type=AutoEvent.LOG,
                 ).model_dump(),
                 typ="json",
                 conn_id=get_entire_player_ids(poker=poker),
             )
         )
-
-    manager.send_by_conn_id(
-        message=Message(
-            data=ApplicationResponse[Union[List[Tuple[str, int]], List[int]]](
-                ok=True,
-                result=response,
-                event_type=AutoEvent.WINNERS,
-            ).model_dump(),
-            typ="json",
-            conn_id=get_entire_player_ids(poker=poker),
-        )
-    )
 
 
 async def winners(manager: WebSocketManager, poker: Poker) -> None:

@@ -5,7 +5,7 @@ from redis.asyncio import Redis
 
 from schemas import Card, Event, Hand, PlayerCards
 from utils.poker import get_player_by_id, get_player_position, get_poker
-from ws.requests import GetCardsRequest
+from ws.requests import PokerGetCardsRequest
 
 from ._messages import send_cards, send_cards_failed
 from ._parser import update_event
@@ -17,7 +17,7 @@ async def get_cards_handler(
     event: Event,
     redis: Redis,
 ) -> None:
-    event = update_event(event=event, class_type=GetCardsRequest)
+    event = update_event(event=event, class_type=PokerGetCardsRequest)
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
     if not poker.started or poker.engine.round.terminal_state:

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Annotated, Any, Generic, Optional, TypeVar, Un
 
 from pydantic import BaseModel, ConfigDict, PlainSerializer
 
-from enums import AutoEvent, EventType
+from enums import AutoEvent, EventType, Service
 
 if TYPE_CHECKING:
     pass
@@ -29,6 +29,7 @@ class ApplicationSchema(_BaseModel):
 class ApplicationResponse(_BaseModel, Generic[PokerType]):
     ok: bool
     result: Optional[PokerType] = None
+    service: Optional[Service] = None
     event_type: Optional[Union[AutoEvent, EventType]] = None
     detail: Optional[str] = None
     error: Optional[str] = None

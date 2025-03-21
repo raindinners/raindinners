@@ -6,7 +6,7 @@ from redis.asyncio import Redis
 from _redis import save
 from schemas import Event
 from utils.poker import get_player_by_id, get_poker
-from ws.requests import ExitRequest
+from ws.requests import PokerExitRequest
 
 from ._messages import send_player_left
 from ._parser import update_event
@@ -19,7 +19,7 @@ async def exit_handler(
     event: Event,
     redis: Redis,
 ) -> None:
-    event = update_event(event=event, class_type=ExitRequest)
+    event = update_event(event=event, class_type=PokerExitRequest)
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
     player = get_player_by_id(poker=poker, id_=connection.id)

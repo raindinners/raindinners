@@ -12,10 +12,7 @@ const executeAction = inject<{(action: Action, amount: number, position: Positio
 </script>
 
 <template>
-  <VBtn
-    class="actionButton"
-    @click="executeAction(props.action, props.actionAmount, props.actionPosition)"
-  >
+  <VBtn @click="executeAction(props.action, props.actionAmount, props.actionPosition)">
     <slot />
   </VBtn>
 </template>

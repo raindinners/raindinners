@@ -6,7 +6,7 @@ from redis.asyncio import Redis
 from _redis import save
 from schemas import Event
 from utils.poker import get_poker
-from ws.requests import JoinRequest
+from ws.requests import PokerJoinRequest
 
 from ._messages import send_join_error, send_player_joined
 from ._parser import update_event
@@ -19,7 +19,7 @@ async def join_handler(
     event: Event,
     redis: Redis,
 ) -> None:
-    event = update_event(event=event, class_type=JoinRequest)
+    event = update_event(event=event, class_type=PokerJoinRequest)
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
     stack = poker.engine.traits.bb_bet * poker.engine.traits.bb_mult

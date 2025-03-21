@@ -7,7 +7,7 @@ from typing import Optional
 from distributed_websocket import Message, WebSocketManager
 from pokerengine.constants import MAX_PLAYERS, MIN_PLAYERS
 
-from enums import AutoEvent, State
+from enums import AutoEvent, Service, State
 from logger import logger
 from metadata import RANDOM_MAX_VALUE, RANDOM_MIN_VALUE, START_TIME
 from poker import Poker
@@ -35,6 +35,7 @@ def send_game_stopped(manager: WebSocketManager, poker: Poker) -> None:
             data=ApplicationResponse[StartResponse](
                 ok=True,
                 result=StartResponse(state=State.STOPPED),
+                service=Service.POKER,
                 event_type=AutoEvent.START,
             ).model_dump(),
             typ="json",
@@ -49,6 +50,7 @@ def send_game_starting(manager: WebSocketManager, poker: Poker) -> None:
             data=ApplicationResponse[StartResponse](
                 ok=True,
                 result=StartResponse(state=State.STARTING, time=poker.start_at),
+                service=Service.POKER,
                 event_type=AutoEvent.START,
             ).model_dump(),
             typ="json",
@@ -63,6 +65,7 @@ def send_game_started(manager: WebSocketManager, poker: Poker) -> None:
             data=ApplicationResponse[StartResponse](
                 ok=True,
                 result=StartResponse(state=State.STARTED),
+                service=Service.POKER,
                 event_type=AutoEvent.START,
             ).model_dump(),
             typ="json",

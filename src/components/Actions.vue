@@ -113,7 +113,7 @@ const isInActions = (find: Action): boolean => {
     </div>
   </div>
   <div v-else-if="!isInActions(Action.RAISE)">
-    <div class="actions actionWithoutRange">
+    <div class="actions">
       <VBtnGroup class="actionsButtons">
         <ActionButton
           :action="Action.FOLD"
@@ -175,15 +175,10 @@ const isInActions = (find: Action): boolean => {
   display: flex;
   flex-direction: column;
   position: fixed;
-  width: 600px;
+  width: 400px;
   bottom: 0;
-  left: 50%;
-  text-align: center; /* Выравнивание текста */
-  padding: 10px; /* Отступы */
-}
-
-.actionWithoutRange {
-  padding: 34px 0;
+  left: auto;
+  text-align: center;
 }
 
 .actionsButtons {

@@ -3,7 +3,7 @@ from __future__ import annotations
 from distributed_websocket import Connection, Message, WebSocketManager
 from pokerengine.engine import Player as PPlayer
 
-from enums import AutoEvent
+from enums import AutoEvent, Service
 from poker import Poker
 from schemas import ApplicationResponse, Event, Player, PlayerCards
 from utils.poker import get_entire_player_ids, get_player_by_id
@@ -19,6 +19,7 @@ def send_log(
             data=ApplicationResponse[str](
                 ok=True,
                 result=message,
+                service=Service.POKER,
                 event_type=AutoEvent.LOG,
             ).model_dump(),
             typ="json",
@@ -37,7 +38,10 @@ def send_cards(
     manager.send_by_conn_id(
         message=Message(
             data=ApplicationResponse[PlayerCards](
-                ok=True, result=cards, player=player, event_type=event.type
+                ok=True,
+                result=cards,
+                service=Service.POKER,
+                event_type=event.type,
             ).model_dump(),
             typ="json",
             conn_id=connection.id,
@@ -49,7 +53,10 @@ def send_cards_failed(connection: Connection, manager: WebSocketManager, event: 
     manager.send_by_conn_id(
         message=Message(
             data=ApplicationResponse[bool](
-                ok=False, result=False, event_type=event.type
+                ok=False,
+                result=False,
+                service=Service.POKER,
+                event_type=event.type,
             ).model_dump(),
             typ="json",
             conn_id=connection.id,
@@ -65,6 +72,7 @@ def send_action_information(
             data=ApplicationResponse[bool](
                 ok=True,
                 result=executed,
+                service=Service.POKER,
                 event_type=event.type,
             ).model_dump(),
             typ="json",
@@ -81,6 +89,7 @@ def send_player_joined(
             data=ApplicationResponse[Player](
                 ok=True,
                 result=Player.model_validate(get_player_by_id(poker=poker, id_=connection.id)),
+                service=Service.POKER,
                 event_type=event.type,
             ).model_dump(),
             typ="json",
@@ -95,6 +104,7 @@ def send_join_error(connection: Connection, manager: WebSocketManager, event: Ev
             data=ApplicationResponse[bool](
                 ok=False,
                 result=False,
+                service=Service.POKER,
                 event_type=event.type,
             ).model_dump(),
             typ="json",
@@ -111,6 +121,7 @@ def send_player_left(
             data=ApplicationResponse[Player](
                 ok=True,
                 result=Player.model_validate(player),
+                service=Service.POKER,
                 event_type=event.type,
             ).model_dump(),
             typ="json",

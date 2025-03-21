@@ -7,7 +7,7 @@ from pokerengine.enums import PositionE, RoundE
 from pokerengine.pokerengine_core.engine import PlayerAction
 from pokerengine.pokerengine_core.enums.action import ActionE
 
-from enums import AutoEvent
+from enums import AutoEvent, Service
 from logger import logger
 from poker import Poker
 from schemas import (
@@ -84,6 +84,7 @@ def send_game_information(manager: WebSocketManager, poker: Poker) -> None:
                             for action in poker.engine.actions.actions
                         ],
                     ),
+                    service=Service.POKER,
                     event_type=AutoEvent.INFORMATION,
                 ).model_dump(),
                 typ="json",

@@ -17,9 +17,6 @@ const props = defineProps<{
 <style scoped>
 .chat {
   margin-top: auto;
-  height: 20vh;
-  max-width: 300px;
-  background-color: white;
   width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
@@ -28,13 +25,9 @@ const props = defineProps<{
 .messages {
   display: flex;
   flex-direction: column;
-  max-height: calc(20vh - 20px);
-  overflow-y: auto;
-  margin-bottom: 10px;
 }
 
 .message {
   padding: 1px;
-  border-bottom: 1px solid #eee;
 }
 </style>
